@@ -1,0 +1,371 @@
+*{font-family:"arial";}
+.no-margin{margin:0 !important;}
+.nav-collapse{
+}
+.bgSlide {
+    display: block;
+    position: relative;
+    width: 100%;
+	/* fallback */ 
+	background-color: #078c2d;
+	background-image: none; 
+	background-repeat: repeat; 
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#078c2d), to(#2da209)); /* Safari 4-5, Chrome 1-9 */	
+	background: -webkit-linear-gradient(top, #2da209, #078c2d); /* Safari 5.1, Chrome 10+ */ 
+	background: -moz-linear-gradient(top, #2da209, #078c2d); /* Firefox 3.6+ */ 
+	background: -ms-linear-gradient(top, #2da209, #078c2d); /* IE 10 */ 
+	background: -o-linear-gradient(top, #2da209, #078c2d); /* Opera 11.10+ */ 
+	padding:10px 0;
+}
+.bgSlide_menu {
+	background: none #ebebeb;
+    display: block;
+    padding: 0px 0;
+    position: relative;
+    width: 100%;
+	margin-bottom: 10px;
+}
+.threeCtn {
+	background: none repeat scroll 0 0 #EBEBEB;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    display: block;
+    float: left;
+    margin: 15px 0 0;
+    padding: 5px 15px;
+    position: relative;
+    width: 100%;
+}
+.bgSlide > .container > .carousel{margin:0;}
+ul.twoCtn{
+	position:relative;
+	display:block;
+	margin:0;
+	padding:0;
+	list-style-type:none;
+	}
+ul.twoCtn li{
+	position:relative;
+	display:block;
+	padding-bottom:15px;
+	border-bottom:1px solid #e2e2e2;
+	float:left;
+}
+ul.twoCtn li a{
+	text-decoration:none;
+	position:relative;
+	width:100%;
+}
+ul.twoCtn li small{
+	float:left;
+	background:none #2DA209;
+	color:#fff;
+	padding:3px;
+	font-size:11px;
+}
+ul.twoCtn li span.desk{
+	float:left;
+	position:relative;
+	display:block;
+	text-align:justify;
+	width:100%;
+}
+div.oneCtn{
+	position:relative;
+	display:block;
+	margin:0;
+	padding:0;
+	border-bottom:1px solid #e2e2e2;
+	float:left;
+	width:100%;
+	padding-bottom:15px;
+	}
+div.oneCtn a{
+	text-decoration:none;
+	position:relative;
+	width:100%;
+}
+div.oneCtn small{
+	float:left;
+	background:none #2DA209;
+	color:#fff;
+	padding:3px;
+	font-size:11px;
+}
+div.oneCtn span.desk{
+	float:left;
+	position:relative;
+	display:block;
+	text-align:justify;
+	width:100%;
+}
+ul.treeCtn{
+	position:relative;
+	display:block;
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+ul.treeCtn li{
+	position:relative;
+	display:block;
+	margin-bottom:10px;
+	border-bottom:1px solid #e2e2e2;
+	float:left;
+	width:100%;
+}
+ul.treeCtn li .thumbnail{
+	float:left;
+}
+ul.treeCtn li h2{
+	line-height:normal;
+	padding:0;
+	margin:0;
+	font-size:small;
+}
+ul.treeCtn li h2 a{
+	font-size:13px;
+}
+ul.treeCtn li small{font-size:11px;color:#fff;background:none #1dc26c;padding:3px;}
+
+ul.treeCtn li .desk {
+    display: block;
+    font-size: 12px;
+    position: relative;
+    text-align: justify;
+}
+/*============= Disini Buat List ============*/
+ul.list_artikel{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	position:relative;
+	display:block;
+	min-height:500px;
+}
+
+ul.list_artikel li {
+    display: block;
+    min-height: 110px;
+    position: relative;
+    width: 100%;
+	margin-bottom:10px;
+}
+ul.list_artikel li .img{
+    display: block;
+    position: relative;
+	width:100px;	
+}
+ul.list_artikel li .span8{
+	border-bottom:1px solid #e0e0e0;
+	min-height:110px;
+	}
+ul.list_artikel li .span8 .title{
+    display: block;
+    position: relative;
+	margin-bottom:10px;
+	
+}
+ul.list_artikel li .span8 .title a {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 25px;
+	color:#7b817e;
+}
+ul.list_artikel li .span8 .title small{
+	background:none #2DA209;
+	color:#fff;
+	padding:3px;
+	font-size:11px;
+}
+ul.list_artikel li .span8 blockquote{
+	text-align:justify;
+	color:#7b817e;
+}
+
+.knn{
+	border-left:2px solid #e0e0e0;
+	min-height:666px !important;
+}
+.krr{
+	border-right:2px solid #e0e0e0;
+	min-height:666px !important;
+}
+@media (max-width: 480px) {
+	.knn{
+		border-left:2px solid #e0e0e0;
+		min-height:150px !important;
+	}
+	.krr{
+		border-right:2px solid #e0e0e0;
+		min-height:150px !important;
+	}
+}
+/*================ Sidebar =========================*/
+.babar{
+	position: relative;
+	display: block;
+	padding:10px 15px;
+	background:none repeat scroll 0 0 #dfdfdf;
+	color:#fff;
+}
+.babar > .widget-title {
+    /* float: left; */
+    font-size: 17px;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0 0 20px;
+    padding: 0;
+    position: relative;
+    top: 0;
+    width: 100%;
+}
+.babar .widget-title .title-text {
+    background-color: #babebc;
+    color: #00A650;
+    display: inline-block;
+    float: left;
+    padding: 5px 0;
+    position: relative;
+    text-align: center;
+    text-transform: capitalize;
+    width: 100%;
+    z-index: 1;
+}
+
+.babar .widget-title .title-text .triangle-left {
+    border-right: 10px solid transparent;
+    border-left: 0 solid transparent;
+    border-top: 20px solid #babebc;
+    bottom: -15px;
+    display: block;
+    height: 0;
+    right: 40px;
+    position: absolute;
+    transition: border 0.3s ease-in-out 0s;
+    width: 0;
+}
+.babar .widget-title .title-text .triangle-bottom {
+    border-left: 10px solid transparent;
+    border-right: 0 solid transparent;
+    border-top: 20px solid #babebc;
+    bottom: -15px;
+    display: block;
+    height: 0;
+    right: 50px;
+    position: absolute;
+    transition: border 0.3s ease-in-out 0s;
+    width: 0;
+}
+ul.populer{
+	list-style-type:none;
+	margin:0;
+	padding:0 ;
+	position:relative;
+	display:block;	
+	width:90%;
+}
+ul.populer li {
+    border-bottom: 1px solid #E0E0E0;
+    display: block;
+    margin-bottom: 5px;
+    min-height: 30px;
+    padding: 5px 0;
+    position: relative;
+    width: 100%;
+}
+ul.populer li a {
+    color: #BABEBC;
+    display: block;
+    font-size: 17px;
+    font-weight: bold;
+    height: 30px;
+    line-height: normal;
+    margin: 0;
+    position: relative;
+    text-transform: uppercase;
+}
+ul.populer li a:hover {
+	background:none #ccc;
+	color:#00A650;
+	text-decoration:none;
+}
+ul.populer li a span{
+	position:relative;
+	display:block;
+	text-align:justify;
+	top:5px;
+	left:5px;
+}
+
+.inner .list-view{padding-top:0;}
+.knn .tangle-left {
+    border-right: 0px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom: 20px solid #eeeeee;
+    top: 14px;
+    display: block;
+    height: 0;
+    left: -10px;
+    position: absolute;
+    transition: border 0.3s ease-in-out 0s;
+    width: 0;
+}
+.knn .tangle-bottom {
+    border-left: 10px solid transparent;
+    border-right: 0px solid transparent;
+    border-top: 20px solid #eeeeee;
+    top: 34px;
+    display: block;
+    height: 0;
+    left: -10px;
+    position: absolute;
+    transition: border 0.3s ease-in-out 0s;
+    width: 0;
+}
+
+.singleRev{
+	padding:10px;
+	margin: 10px 15px;
+	position:relative;
+	display:block;
+	background:none #eeeeee;
+}
+.singleRev .tel{
+	font-size:18px;
+	position:relative;
+	display:block;
+	margin:0;
+	padding:0;
+}
+.singleRev > .iten{
+	position:relative;
+	display:block;
+	text-align:justify;
+	margin-bottom:10px;
+}
+.singleRev > .gbr{
+	padding:10px;
+	border:1px solid #dcdedd;
+}
+.logoz {
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+#puterr{
+	position: relative;
+	color:#fff;
+    width: 100%;
+	/* fallback */ 
+	padding:20px 0;
+	background: #048a30; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzk5OTk5OSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ4JSIgc3RvcC1jb2xvcj0iI2QzZDNkMyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM5OTk5OTkiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(left,  #048a30 0%, #2da209 48%, #048a30 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#048a30), color-stop(48%,#2da209), color-stop(100%,#048a30)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  #048a30 0%,#2da209 48%,#048a30 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  #048a30 0%,#2da209 48%,#048a30 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  #048a30 0%,#2da209 48%,#048a30 100%); /* IE10+ */
+	background: linear-gradient(to right,  #048a30 0%,#2da209 48%,#048a30 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#048a30', endColorstr='#048a30',GradientType=1 ); /* IE6-8 */
+}
