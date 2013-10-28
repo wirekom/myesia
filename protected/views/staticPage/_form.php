@@ -32,4 +32,6 @@ $this->widget('ext.editMe.widgets.ExtEditMe', array(
     ?>
 </div>
 
+<?php echo $form->checkBoxRow($model, 'menu_link', array('class' => 'span5')); ?>
+
 <?php $this->endWidget(); ?>

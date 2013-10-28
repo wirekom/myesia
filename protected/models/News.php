@@ -42,7 +42,7 @@ class News extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('title, content, author_id, category_id', 'required'),
+            array('title, content, author_id, category_id, menu_link', 'required'),
             array('status, is_banner, author_id, category_id', 'numerical', 'integerOnly' => true),
             array('image', 'length', 'max' => 150),
             array('title', 'length', 'max' => 225),
@@ -51,7 +51,7 @@ class News extends CActiveRecord {
             array('file', 'required', 'on' => 'insert'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, title, content, status, is_banner, created, updated, author_id, category_id, slug', 'safe', 'on' => 'search'),
+            array('id, image, title, content, status, is_banner, created, updated, author_id, category_id, menu_link, slug', 'safe', 'on' => 'search'),
         );
     }
 
@@ -62,8 +62,10 @@ class News extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'comments' => array(self::HAS_MANY, 'Comment', 'news_id'),
             'author' => array(self::BELONGS_TO, 'User', 'author_id'),
             'category' => array(self::BELONGS_TO, 'Category', 'category_id'),
+            'commentCount' => array(self::STAT, 'Comment', 'news_id'),
         );
     }
 
@@ -83,6 +85,7 @@ class News extends CActiveRecord {
             'author_id' => 'Author',
             'category_id' => 'Category',
             'slug' => 'Slug',
+            'menu_link' => 'Menu Link',
         );
     }
 
@@ -114,6 +117,7 @@ class News extends CActiveRecord {
         $criteria->compare('author_id', $this->author_id);
         $criteria->compare('category_id', $this->category_id);
         $criteria->compare('slug', $this->slug, true);
+        $criteria->compare('menu_link', $this->menu_link);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -182,6 +186,12 @@ class News extends CActiveRecord {
                 'setUpdateOnCreate' => true,
             ),
         );
+    }
+
+    public function addComment($comment) {
+        $comment->news_id = $this->id;
+        $comment->author_id = Yii::app()->user->id;
+        return $comment->save();
     }
 
 }

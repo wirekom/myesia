@@ -29,7 +29,11 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
             'type' => 'raw',
             'value' => CHtml::encode($model->statusText),
         ),
-        'author_id',
+        array(
+            'name' => 'author_id',
+            'type' => 'raw',
+            'value' => CHtml::encode($model->author->username),
+        ),
     ),
 ));
 ?>

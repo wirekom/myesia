@@ -17,10 +17,10 @@
  */
 class StaticPage extends CActiveRecord {
 
-
     const STATUS_DRAFT = 1;
     const STATUS_PUBLISHED = 2;
     const STATUS_ARCHIVED = 3;
+
     /**
      * @return string the associated database table name
      */
@@ -41,7 +41,7 @@ class StaticPage extends CActiveRecord {
             array('content', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, title, content, status, created, updated, author_id', 'safe', 'on' => 'search'),
+            array('id, title, content, status, created, updated, author_id, menu_link', 'safe', 'on' => 'search'),
         );
     }
 
@@ -68,6 +68,7 @@ class StaticPage extends CActiveRecord {
             'created' => 'Created',
             'updated' => 'Updated',
             'author_id' => 'Author',
+            'menu_link' => 'Menu Link',
         );
     }
 
@@ -95,7 +96,8 @@ class StaticPage extends CActiveRecord {
         $criteria->compare('created', $this->created, true);
         $criteria->compare('updated', $this->updated, true);
         $criteria->compare('author_id', $this->author_id);
-
+        $criteria->compare('menu_link', $this->menu_link);
+        
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
@@ -139,7 +141,7 @@ class StaticPage extends CActiveRecord {
                     'slug' => $this->slug,
         ));
     }
-    
+
     public function behaviors() {
         return array(
             'sluggable' => array(

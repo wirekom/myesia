@@ -37,6 +37,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         array(
             'name' => 'status',
+            'filter' => $model->getStatusOptions(),
             'type' => 'raw',
             'value' => 'CHtml::encode($data->statusText)'
         ),
@@ -54,6 +55,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         'author_id',
         array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
+            'template' => '{update}{delete}',
         ),
     ),
 ));

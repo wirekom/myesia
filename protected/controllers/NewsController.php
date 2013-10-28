@@ -48,8 +48,10 @@ class NewsController extends Controller {
      */
     public function actionView() {
         $news = $this->loadModelSlug();
+        $comment = $this->newComment($news);
         $this->render('view', array(
             'model' => $news,
+            'comment' => $comment,
         ));
     }
 
@@ -192,6 +194,22 @@ class NewsController extends Controller {
 
             return $model;
         }
+    }
+
+    protected function newComment($post) {
+        $comment = new Comment;
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'comment-form') {
+            echo CActiveForm::validate($comment);
+            Yii::app()->end();
+        }
+        if (isset($_POST['Comment'])) {
+            $comment->attributes = $_POST['Comment'];
+            if ($post->addComment($comment)) {
+                Yii::app()->user->setFlash('commentSubmitted', 'Thank you for your comment.');
+                $this->refresh();
+            }
+        }
+        return $comment;
     }
 
 }

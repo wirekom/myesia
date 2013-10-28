@@ -40,7 +40,39 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
             'value' => CHtml::encode($model->statusText),
         ),
         'is_banner',
-        'author_id',
+        array(
+            'name' => 'author_id',
+            'type' => 'raw',
+            'value' => CHtml::encode($model->author->username),
+        ),
     ),
 ));
 ?>
+
+<div class="blog-comments-container" id="comments">
+    <?php if ($model->commentCount >= 1): ?>
+        <h3>
+            <?php echo $model->commentCount > 1 ? $model->commentCount . ' comments' : 'One comment'; ?>
+        </h3>
+
+        <?php
+        $this->renderPartial('_comments', array(
+            'post' => $model,
+            'comments' => $model->comments,
+        ));
+        ?>
+    <?php endif; ?>
+
+    <?php if (Yii::app()->user->hasFlash('commentSubmitted')): ?>
+        <div class="flash-success">
+            <?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+        </div>
+    <?php else: ?>
+        <h3>Leave a Comment</h3>
+        <?php
+        $this->renderPartial('/comment/_form', array(
+            'model' => $comment,
+        ));
+        ?>
+    <?php endif; ?>
+</div><!-- blog-comments-container-->
