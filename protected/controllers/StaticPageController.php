@@ -59,6 +59,7 @@ class StaticPageController extends Controller {
      */
     public function actionCreate() {
         $model = new StaticPage;
+        $menu = new Menu;
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -72,6 +73,7 @@ class StaticPageController extends Controller {
 
         $this->render('create', array(
             'model' => $model,
+            'menu' => $menu,
         ));
     }
 

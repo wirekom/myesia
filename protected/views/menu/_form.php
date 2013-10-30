@@ -14,8 +14,9 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?php echo $form->textFieldRow($model, 'url', array('class' => 'span5', 'maxlength' => 255)); ?>
 
 <?php echo $form->textAreaRow($model, 'description', array('rows' => 6, 'cols' => 50, 'class' => 'span8')); ?>
-
-    <?php echo $form->checkBoxRow($model, 'published', array('class' => 'span5')); ?>
+<?php echo $form->dropDownListRow($model, 'priority', $model->getPriorityOptions()); ?>
+<?php echo $form->dropDownListRow($model, 'parent_id', $model->getMenuOptions()); ?>  
+<?php echo $form->checkBoxRow($model, 'published', array('class' => 'span5')); ?>
 
 <div class="form-actions">
     <?php

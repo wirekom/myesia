@@ -159,7 +159,7 @@ class News extends CActiveRecord {
     }
 
     /**
-     * @return string the URL that shows the detail of the post
+     * @return string the URL that shows the detail of the news
      */
     public function getUrl() {
         return Yii::app()->createUrl('news/view', array(

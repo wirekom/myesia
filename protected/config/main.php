@@ -49,6 +49,7 @@ return array(
             'rules' => array(
                 'berita/<slug:[a-zA-Z0-9-]+>' => 'news/view',
                 'page/<slug:[a-zA-Z0-9-]+>' => 'staticPage/view',
+                'topik/<slug:[a-zA-Z0-9-]+>' => 'category/view',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

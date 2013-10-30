@@ -99,9 +99,23 @@ class Category extends CActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
+    /**
+     * @return string the URL that shows the detail of the news
+     */
+    public function getUrl() {
+        return Yii::app()->createUrl('category/view', array(
+                    'slug' => $this->slug,
+        ));
+    }
 
     public function behaviors() {
         return array(
+            'sluggable' => array(
+                'class' => 'ext.behaviors.SluggableBehavior.SluggableBehavior',
+                'columns' => array('name'),
+                'unique' => true,
+                'update' => true,
+            ),
             'timestamps' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => 'created',

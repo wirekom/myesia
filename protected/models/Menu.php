@@ -115,6 +115,28 @@ class Menu extends CActiveRecord {
         return parent::model($className);
     }
 
+    public function getPriorityOptions() {
+        $data = array();
+        $range = range(50, -50);
+        foreach ($range as $val) {
+            $data[$val] = "$val";
+        }
+        return $data;
+    }
+
+    public function getMenuOptions($parent = NULL, $level = 0) {
+        $criteria = new CDbCriteria;
+        $criteria->condition = ($parent == NULL) ? 'parent_id is null' : 'parent_id=:pid';
+        $criteria->params = array(':pid' => $parent);
+        $model = $this->findAll($criteria);
+        $result = array();
+        foreach ($model as $key) {
+            $result[$key->id] = str_repeat(' — ', $level) . $key->title;
+            $result += $this->getMenuOptions($key->id, $level + 1);
+        }
+        return $result;
+    }
+
     public function behaviors() {
         return array(
             'timestamps' => array(

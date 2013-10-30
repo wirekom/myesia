@@ -20,6 +20,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'filter' => $model,
     'columns' => array(
         array(
+            'name' => 'author_id',
+            'type' => 'raw',
+            'value' => 'CHtml::encode($data->author->username)',
+        ),
+        array(
             'name' => 'category_id',
             'type' => 'raw',
             'value' => 'CHtml::encode($data->category->name)',
@@ -52,7 +57,6 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'type' => 'datetime',
             'filter' => false,
         ),
-        'author_id',
         array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
             'template' => '{update}{delete}',

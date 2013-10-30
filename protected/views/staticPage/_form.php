@@ -7,7 +7,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <p class="help-block">Fields with <span class="required">*</span> are required.</p>
 
-<?php echo $form->errorSummary($model); ?>
+<?php echo $form->errorSummary($model, $menu); ?>
 
 <?php echo $form->textFieldRow($model, 'title', array('class' => 'span5', 'maxlength' => 255)); ?>
 
@@ -22,6 +22,12 @@ $this->widget('ext.editMe.widgets.ExtEditMe', array(
 ?>
 <?php echo $form->dropDownListRow($model, 'status', $model->getStatusOptions(), array('class' => 'span5')); ?>
 
+<?php echo $form->checkBoxRow($model, 'menu_link', array('class' => 'span5')); ?>
+
+<div class="menu-form">
+    <?php $this->renderPartial('_menu', array('menu' => $menu, 'form' => $form)); ?>
+</div>
+
 <div class="form-actions">
     <?php
     $this->widget('bootstrap.widgets.TbButton', array(
@@ -31,7 +37,5 @@ $this->widget('ext.editMe.widgets.ExtEditMe', array(
     ));
     ?>
 </div>
-
-<?php echo $form->checkBoxRow($model, 'menu_link', array('class' => 'span5')); ?>
 
 <?php $this->endWidget(); ?>

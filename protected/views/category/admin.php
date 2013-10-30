@@ -18,7 +18,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        'name',
+        array(
+            'name' => 'name',
+            'type' => 'raw',
+            'value' => 'CHtml::link(CHtml::encode($data->name), $data->url)'
+        ),
         'description',
         array(
             'name' => 'created',
@@ -32,6 +36,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
+            'template' => '{update}{delete}',
         ),
     ),
 ));
