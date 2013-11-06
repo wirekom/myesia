@@ -17,5 +17,8 @@ return array(
         array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat',),
         array('NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',),
     ),
-    'uploads' => '/uploads/'
+    'uploads' => '/uploads/',
+    'uploads_pictures' => '/uploads/pictures/',
+    'uploads_videos' => '/uploads/videos/',
+    'uploads_documents' => '/uploads/documents/'
 );

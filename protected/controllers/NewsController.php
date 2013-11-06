@@ -47,12 +47,29 @@ class NewsController extends Controller {
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView() {
+        $this->layout = "//layouts/column1";
         $news = $this->loadModelSlug();
         $comment = $this->newComment($news);
-        $this->render('view', array(
-            'model' => $news,
-            'comment' => $comment,
-        ));
+        if ($news->file_type == News::TYPE_PICTURE)
+            $this->render('picture', array(
+                'model' => $news,
+                'comment' => $comment,
+            ));
+        else if ($news->file_type == News::TYPE_DOCUMENT)
+            $this->render('document', array(
+                'model' => $news,
+                'comment' => $comment,
+            ));
+        else if ($news->file_type == News::TYPE_VIDEO)
+            $this->render('video', array(
+                'model' => $news,
+                'comment' => $comment,
+            ));
+        else
+            $this->render('view', array(
+                'model' => $news,
+                'comment' => $comment,
+            ));
     }
 
     /**
@@ -70,9 +87,21 @@ class NewsController extends Controller {
             $model->author_id = Yii::app()->user->id;
             $model->file = CUploadedFile::getInstance($model, 'file');
             if ($model->file !== null) {
-                $fileName = sha1($model->file->getName() . rand(1, 9999999999)) . '.' . strtolower($model->file->getExtensionName());
-                $model->image = $fileName;
+                $ext = strtolower($model->file->getExtensionName());
                 $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads'];
+                $fileName = sha1($model->file->getName() . rand(1, 9999999999)) . '.' . $ext;
+                if ($ext == 'pdf') {
+                    $model->file_type = News::TYPE_DOCUMENT;
+                    $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads_documents'];
+                } else if ($ext == 'mp4') {
+                    $model->file_type = News::TYPE_VIDEO;
+                    $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads_videos'];
+                } else {
+                    $model->file_type = News::TYPE_PICTURE;
+                    $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads_pictures'];
+                }
+
+                $model->image = $fileName;
                 $model->file->saveAs($dir . $fileName);
             }
             if ($model->save())
@@ -100,10 +129,22 @@ class NewsController extends Controller {
             $model->author_id = Yii::app()->user->id;
             $model->file = CUploadedFile::getInstance($model, 'file');
             if ($model->file !== null) {
-                $fileName = sha1($model->file->getName() . rand(1, 9999999999)) . '.' . $model->file->getExtensionName();
+                $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads'];
+                $ext = strtolower($model->file->getExtensionName());
+                $fileName = sha1($model->file->getName() . rand(1, 9999999999)) . '.' . $ext;
                 $old_file = $model->image;
                 $model->image = $fileName;
-                $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads'];
+                if ($ext == 'pdf') {
+                    $model->file_type = News::TYPE_DOCUMENT;
+                    $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads_documents'];
+                } else if ($ext == 'mp4') {
+                    $model->file_type = News::TYPE_VIDEO;
+                    $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads_videos'];
+                } else {
+                    $model->file_type = News::TYPE_PICTURE;
+                    $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads_pictures'];
+                }
+
                 if ($model->file->saveAs($dir . $fileName) && file_exists($dir . $old_file))
                     unlink($dir . $old_file);
             }

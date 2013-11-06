@@ -33,18 +33,6 @@ $this->menu = array(
                     'pagination' => array(
                         'pageSize' => 5,
                     ),
-                    'sort' => array(
-                        'attributes' => array(
-                            'category_id',
-                            'image',
-                            'title',
-                            'status',
-                            'created',
-                            'updated',
-                            'author_id',
-                        ),
-                        'defaultOrder' => 'cost ASC',
-                    ),
                         )),
                 'template' => "<ul class='list_artikel'>{items}</ul>\n{pager}",
                 'itemView' => '_news',

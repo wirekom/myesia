@@ -9,6 +9,7 @@
  * @property string $title
  * @property string $content
  * @property integer $status
+ * @property integer $file_status
  * @property integer $is_banner
  * @property string $created
  * @property string $updated
@@ -27,6 +28,10 @@ class News extends CActiveRecord {
     const STATUS_DRAFT = 1;
     const STATUS_PUBLISHED = 2;
     const STATUS_ARCHIVED = 3;
+    const TYPE_PICTURE = 1;
+    const TYPE_VIDEO = 2;
+    const TYPE_DOCUMENT = 3;
+    const TYPE_PICTURES = 4;
 
     /**
      * @return string the associated database table name
@@ -43,15 +48,15 @@ class News extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('title, content, author_id, category_id, menu_link', 'required'),
-            array('status, is_banner, author_id, category_id', 'numerical', 'integerOnly' => true),
+            array('status, file_type, is_banner, author_id, category_id', 'numerical', 'integerOnly' => true),
             array('image', 'length', 'max' => 150),
             array('title', 'length', 'max' => 225),
             array('slug', 'length', 'max' => 255),
-            array('file', 'file', 'types' => 'png, jpg, jpeg', 'allowEmpty' => true),
+            array('file', 'file', 'types' => 'png, jpg, jpeg, mp4, pdf', 'allowEmpty' => true),
             array('file', 'required', 'on' => 'insert'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, title, content, status, is_banner, created, updated, author_id, category_id, menu_link, slug', 'safe', 'on' => 'search'),
+            array('id, image, title, content, status, file_type, is_banner, created, updated, author_id, category_id, menu_link, slug', 'safe', 'on' => 'search'),
         );
     }
 
@@ -79,6 +84,7 @@ class News extends CActiveRecord {
             'title' => 'Title',
             'content' => 'Content',
             'status' => 'Status',
+            'file_type' => 'File Type',
             'is_banner' => 'Is Banner',
             'created' => 'Created',
             'updated' => 'Updated',
@@ -111,6 +117,7 @@ class News extends CActiveRecord {
         $criteria->compare('title', $this->title, true);
         $criteria->compare('content', $this->content, true);
         $criteria->compare('status', $this->status);
+        $criteria->compare('file_type', $this->file_type);
         $criteria->compare('is_banner', $this->is_banner);
         $criteria->compare('created', $this->created, true);
         $criteria->compare('updated', $this->updated, true);
@@ -158,6 +165,36 @@ class News extends CActiveRecord {
         return array_search($status, $statusOptions);
     }
 
+    public function getTypeOptions() {
+        return array(
+            self::TYPE_PICTURE => 'PICTURE',
+            self::TYPE_VIDEO => 'VIDEO',
+            self::TYPE_DOCUMENT => 'DOCUMENT',
+            self::TYPE_PICTURES => 'PICTURES',
+        );
+    }
+
+    public function getTypeText($type = null) {
+        $value = ($type === null) ? $this->type : $type;
+        $typeOptions = $this->getStatusOptions();
+        return isset($typeOptions[$value]) ?
+                $typeOptions[$value] : "unknown type ({$value})";
+    }
+
+    public function getTypeValue($type = null) {
+        $typeOptions = $this->getStatusOptions();
+        return array_search($type, $typeOptions);
+    }
+
+    public function getImageThumb() {
+        if ($this->file_type == self::TYPE_PICTURE)
+            return CHtml::image(Yii::app()->baseUrl . Yii::app()->params['uploads_pictures'] . $this->image, $this->title, array('width' => '150px', 'height' => '150px'));
+        else if ($this->file_type == self::TYPE_DOCUMENT)
+            return CHtml::image(Yii::app()->baseUrl . '/images/pdf-tmb.jpg', $this->title, array('width' => '150px', 'height' => '150px'));
+        else if ($this->file_type == self::TYPE_VIDEO)
+            return CHtml::image(Yii::app()->baseUrl . '/images/video-tmb.jpg', $this->title, array('width' => '150px', 'height' => '150px'));
+    }
+
     /**
      * @return string the URL that shows the detail of the news
      */
@@ -168,7 +205,7 @@ class News extends CActiveRecord {
     }
 
     public function getImageHtml() {
-        return CHtml::image(Yii::app()->baseUrl . Yii::app()->params['uploads'] . $this->image, $this->title, array('width' => '150px', 'height' => '150px'));
+        return CHtml::image(Yii::app()->baseUrl . Yii::app()->params['uploads_pictures'] . $this->image, $this->title, array('width' => '150px', 'height' => '150px'));
     }
 
     public function behaviors() {
