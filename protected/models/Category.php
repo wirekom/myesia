@@ -99,12 +99,42 @@ class Category extends CActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
+
     /**
      * @return string the URL that shows the detail of the news
      */
     public function getUrl() {
         return Yii::app()->createUrl('category/view', array(
                     'slug' => $this->slug,
+        ));
+    }
+
+    public function getLastImageNews() {
+        $news = News::model()->find(array(
+            'condition' => 'status=:status AND category_id=:id AND file_type=:file_type',
+            'order' => 'updated',
+            'params' => array(
+                ':id' => $this->id,
+                ':file_type' => News::TYPE_PICTURE,
+                ':status' => News::STATUS_PUBLISHED
+            )
+        ));
+
+        if ($news === NULL)
+            return CHtml::image(Yii::app()->baseUrl . '/images/no_photo.jpg', 'No Image');
+        else
+            return CHtml::image(Yii::app()->baseUrl . Yii::app()->params['uploads_pictures'] . $news->image, $news->title);
+    }
+
+    public function getLatestNews() {
+        return News::model()->find(array(
+                    'condition' => 'status=:status AND category_id=:id AND file_type=:file_type',
+                    'order' => 'updated DESC',
+                    'params' => array(
+                        ':id' => $this->id,
+                        ':file_type' => News::TYPE_PICTURE,
+                        ':status' => News::STATUS_PUBLISHED
+                    )
         ));
     }
 

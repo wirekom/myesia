@@ -78,6 +78,7 @@ limitations under the License.
     <script type="text/javascript" src="<?php echo $baseUrl; ?>/src/jpx.js"></script>
     <script type="text/javascript" src="<?php echo $baseUrl; ?>/src/jbig2.js"></script>
     <script type="text/javascript" src="<?php echo $baseUrl; ?>/src/bidi.js"></script>
+    <script type="text/javascript" src="<?php echo $baseUrl; ?>/web/pdf.js"></script>
     <script type="text/javascript">
     PDFJS.workerSrc = '<?php echo $baseUrl; ?>/src/worker_loader.js';
     var DEFAULT_URL = '<?php echo $url ?>';

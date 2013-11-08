@@ -231,4 +231,28 @@ class News extends CActiveRecord {
         return $comment->save();
     }
 
+    public static function getBanner() {
+        return News::model()->findAll(array(
+                    'condition' => 'is_banner=:is_banner AND status=:status AND file_type=:file_type',
+                    'order' => 'updated DESC',
+                    'limit' => 5,
+                    'params' => array(
+                        ':is_banner' => 1,
+                        ':file_type' => News::TYPE_PICTURE,
+                        ':status' => News::STATUS_PUBLISHED
+                    )
+        ));
+    }
+    public static function getLastTwoNews() {
+        return News::model()->findAll(array(
+                    'condition' => 'status=:status AND file_type=:file_type',
+                    'order' => 'updated DESC',
+                    'limit' => 2,
+                    'params' => array(
+                        ':file_type' => News::TYPE_PICTURE,
+                        ':status' => News::STATUS_PUBLISHED
+                    )
+        ));
+    }
+
 }

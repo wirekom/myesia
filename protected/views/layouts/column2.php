@@ -1,6 +1,8 @@
 <?php /* @var $this Controller */ ?>
 <?php $this->beginContent('//layouts/main'); ?>
-<div class="row-fluid">
+<div class="container inner">
+      <div class="innerLR">
+      <div class="row-fluid"><!--========== Content ===========-->
     <div class="span9">
         <div id="content">
             <?php echo $content; ?>
@@ -20,5 +22,7 @@
         ?>
         </div><!-- sidebar -->
     </div>
-</div>
+	  </div>
+      </div><!-- /innerLR -->
+    </div><!-- /container -->
 <?php $this->endContent(); ?>

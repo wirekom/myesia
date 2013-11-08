@@ -22,7 +22,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         array(
             'name' => 'image',
             'type' => 'html',
-            'value' => $model->imageHtml,
+            'value' => $model->imageThumb,
         ),
         'title',
         array(

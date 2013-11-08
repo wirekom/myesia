@@ -7,7 +7,6 @@
 Yii::setPathOfAlias('bootstrap', dirname(__FILE__) . '/../extensions/bootstrap'); // Extension Bootstrap
 
 return array(
-    'theme' => 'bootstrap', // Extension Bootstrap
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'Bakrie Telecom Portal',
     // preloading 'log' component
