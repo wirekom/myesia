@@ -12,75 +12,61 @@ $this->menu = array(
     array('label' => 'Manage News', 'url' => array('admin')),
 );
 ?>
+<div class="container inner">
+	<div class="row-fluid"><!--========== Content ===========-->
+		<div class="span9"><!-- Sebelah Kiri -->
+			<div style="height:600px;">
+				<?php
+				Yii::app()->clientScript->registerCoreScript('jquery');
 
-<h1>View News #<?php echo $model->title; ?></h1>
-<div style="height:600px;">
-    <?php
-    Yii::app()->clientScript->registerCoreScript('jquery');
+				$this->widget('ext.pdfJs.QPdfJs', array(
+					'url' => Yii::app()->baseUrl . Yii::app()->params['uploads_documents'] . $model->image,
+				))
+				?>
+			</div>
 
-    $this->widget('ext.pdfJs.QPdfJs', array(
-        'url' => Yii::app()->baseUrl . Yii::app()->params['uploads_documents'] . $model->image,
-    ))
-    ?>
-</div>
-<?php
-$this->widget('bootstrap.widgets.TbDetailView', array(
-    'data' => $model,
-    'attributes' => array(
-        array(
-            'name' => 'image',
-            'type' => 'html',
-            'value' => $model->imageHtml,
-        ),
-        'title',
-        array(
-            'name' => 'category_id',
-            'type' => 'raw',
-            'value' => CHtml::encode($model->category->name),
-        ),
-        array(
-            'name' => 'content',
-            'type' => 'html',
-        ),
-        array(
-            'name' => 'status',
-            'type' => 'raw',
-            'value' => CHtml::encode($model->statusText),
-        ),
-        'is_banner',
-        array(
-            'name' => 'author_id',
-            'type' => 'raw',
-            'value' => CHtml::encode($model->author->username),
-        ),
-    ),
-));
-?>
-
-<div class="blog-comments-container" id="comments">
-<?php if ($model->commentCount >= 1): ?>
-        <h3>
-        <?php echo $model->commentCount > 1 ? $model->commentCount . ' comments' : 'One comment'; ?>
-        </h3>
-
-    <?php
-    $this->renderPartial('_comments', array(
-        'post' => $model,
-        'comments' => $model->comments,
-    ));
-    ?>
-    <?php endif; ?>
-
-    <?php if (Yii::app()->user->hasFlash('commentSubmitted')): ?>
-        <div class="flash-success">
-        <?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
-        </div>
-        <?php else: ?>
-        <h3>Leave a Comment</h3>
-        <?php
-        $this->renderPartial('/comment/_form', array(
-            'model' => $comment,
-        ));
-        ?>
-    <?php endif; ?>
-</div><!-- blog-comments-container-->
+			<div class="comment">
+				<?php if (Yii::app()->user->hasFlash('commentSubmitted')): ?>
+					<div class="flash-success">
+						<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+					</div>
+				<?php else: ?>
+					<?php
+					$this->renderPartial('/comment/_form', array(
+						'model' => $comment,
+					));
+					?>
+				<?php endif; ?>
+			</div>
+			
+			<div class="isi-koment">
+					<?php if ($model->commentCount >= 1): ?>
+					<h3>
+						<?php echo $model->commentCount > 1 ? $model->commentCount . ' comments' : 'One comment'; ?>
+					</h3>
+					<?php
+					$this->renderPartial('_comments', array(
+						'post' => $model,
+						'comments' => $model->comments,
+					));
+					?>
+					<?php endif; ?>
+			</div><!-- blog-comments-container-->
+		</div>
+		<div class="span3 knn"><!-- Sebelah Kanan -->
+		<div class="babar">
+			<h3 class="widget-title clearfix">
+				<span class="title-text">Artikel Lainnya
+				</span>
+			</h3>
+			<?php
+				$this->widget('bootstrap.widgets.TbListView', array(
+					'dataProvider' => $dataProvider,
+					'template' => "<ul class=\"populer\">{items}</ul>",
+					'itemView' => '_listartikel',
+				));
+			?>
+		</div>
+		</div>
+    </div>
+</div><!-- /container -->

@@ -10,6 +10,7 @@ return array(
     'copyrightInfo' => 'Copyright &copy; 2013 by WIREKOM.',
     'toolbar_editor' => array(
         array('Styles', 'Format', 'Font', 'FontSize',),
+        array('Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo',),
         array('Image', 'Table', 'SpecialChar', 'HorizontalRule',),
         array('Link', 'Unlink', 'Anchor',),
         array('Maximize',),

@@ -9,16 +9,19 @@ $this->pageTitle = Yii::app()->name;
         <!--Start Carousel-->	
         <div id="myCarousel" class="carousel slide">
             <div class="carousel-inner">
-                <?php $active = 'active';?>
+                <?php $active = 'active'; ?>
                 <?php foreach ($banners as $banner) : ?>
-                    <div class="item <?php echo $active; $active = ''; ?>">
-                        <?php echo CHtml::image(Yii::app()->baseUrl . Yii::app()->params['uploads_pictures'] . $banner->image); ?>
+                    <div class="item <?php
+                    echo $active;
+                    $active = '';
+                    ?>">
+                             <?php echo CHtml::image(Yii::app()->baseUrl . Yii::app()->params['uploads_pictures'] . $banner->image); ?>
                         <div class="carousel-caption">
                             <h4><?php echo $banner->title; ?></h4>
                             <p>
                                 <?php echo substr(strip_tags($banner->content), 0, 200); ?>
-                            <br/>
-                            <?php echo CHtml::link(CHtml::encode('Read More'), $banner->url); ?>
+                                <br/>
+                                <?php echo CHtml::link(CHtml::encode('Read More'), $banner->url); ?>
                             </p>
                         </div>
                     </div>
@@ -124,98 +127,64 @@ $this->pageTitle = Yii::app()->name;
                     </ul>
                     <div class="tab-content">
                         <div id="pane1" class="tab-pane active">
-                            <div class="ucap">
-                                <ul class="an">
-                                    <li>
-                                        <span class="img span3">
-                                            <img alt="" src="<?php echo Yii::app()->request->baseUrl; ?>/images/ga1.jpg">
-                                        </span>
-                                        <div class="span9">
-                                            <span class="title">
-                                                <a href="#">Loream ipsum dolor si amet</a><br>
-                                                <small>2013-09-27 15:14:49</small>
+                            <div id="ucap1" class="ucap">
+                                <ul id="shoutboxes1" class="an">
+                                    <?php foreach ($shoutboxes1 as $shoutbox1): ?>
+                                        <li class="shoutbox1">
+                                            <span class="img span3">
+                                                <img alt="" src="<?php echo Yii::app()->request->baseUrl; ?>/images/ga1.jpg">
                                             </span>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="img span3">
-                                            <img alt="" src="<?php echo Yii::app()->request->baseUrl; ?>/images/ga1.jpg">
-                                        </span>
-                                        <div class="span9">
-                                            <span class="title">
-                                                <a href="#">Loream ipsum dolor si amet</a><br>
-                                                <small>2013-09-27 15:14:49</small>
-                                            </span>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="img span3">
-                                            <img alt="" src="<?php echo Yii::app()->request->baseUrl; ?>/images/ga1.jpg">
-                                        </span>
-                                        <div class="span9">
-                                            <span class="title">
-                                                <a href="#">Loream ipsum dolor si amet</a><br>
-                                                <small>2013-09-27 15:14:49</small>
-                                            </span>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-                                            </p>
-                                        </div>
-                                    </li>
+                                            <div class="span9">
+                                                <span class="title">
+                                                    <?php echo CHtml::link($shoutbox1->title, array('shoutbox/view', 'id' => $shoutbox1->id)); ?><br>
+                                                    <small><?php echo $shoutbox1->updated; ?></small>
+                                                </span>
+                                                <p><?php echo $shoutbox1->content; ?></p>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
+
+                                    <?php
+                                    $this->widget('ext.yiinfinite-scroll.YiinfiniteScroller', array(
+                                        'contentSelector' => '#shoutboxes1',
+                                        'itemSelector' => 'li.shoutbox1',
+                                        'loadingText' => 'Loading...',
+                                        'donetext' => 'This is the end... my only friend, the end',
+                                        'pages' => $pages1,
+                                        'binderSelector' => '#ucap1'
+                                    ));
+                                    ?>
                                 </ul>
                             </div>
                         </div>
                         <div id="pane2" class="tab-pane">
-                            <div class="ucap">
-                                <ul class="an">
-                                    <li>
-                                        <span class="img span3">
-                                            <img alt="" src="<?php echo Yii::app()->request->baseUrl; ?>/images/ga1.jpg">
-                                        </span>
-                                        <div class="span9">
-                                            <span class="title">
-                                                <a href="#">Selamat tahun baru</a><br>
-                                                <small>2013-10-10 15:14:49</small>
+                            <div id="ucap2" class="ucap">
+                                <ul id="shoutboxes2" class="an">
+                                    <?php foreach ($shoutboxes2 as $shoutbox2): ?>
+                                        <li class="shoutbox2">
+                                            <span class="img span3">
+                                                <img alt="" src="<?php echo Yii::app()->request->baseUrl; ?>/images/ga1.jpg">
                                             </span>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="img span3">
-                                            <img alt="" src="<?php echo Yii::app()->request->baseUrl; ?>/images/ga1.jpg">
-                                        </span>
-                                        <div class="span9">
-                                            <span class="title">
-                                                <a href="#">Selamat makan</a><br>
-                                                <small>2013-10-11 15:14:49</small>
-                                            </span>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span class="img span3">
-                                            <img alt="" src="<?php echo Yii::app()->request->baseUrl; ?>/images/ga1.jpg">
-                                        </span>
-                                        <div class="span9">
-                                            <span class="title">
-                                                <a href="#">Selamat riadi</a><br>
-                                                <small>2013-10-12 15:14:49</small>
-                                            </span>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-                                            </p>
-                                        </div>
-                                    </li>
+                                            <div class="span9">
+                                                <span class="title">
+                                                    <?php echo CHtml::link($shoutbox2->title, array('shoutbox/view', 'id' => $shoutbox2->id)); ?><br>
+                                                    <small><?php echo $shoutbox2->updated; ?></small>
+                                                </span>
+                                                <p><?php echo $shoutbox2->content; ?></p>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
+
+                                    <?php
+                                    $this->widget('ext.yiinfinite-scroll.YiinfiniteScroller', array(
+                                        'contentSelector' => '#shoutboxes2',
+                                        'itemSelector' => 'li.shoutbox2',
+                                        'loadingText' => 'Loading...',
+                                        'donetext' => 'This is the end... my only friend, the end',
+                                        'pages' => $pages2,
+                                        'binderSelector' => '#ucap2'
+                                    ));
+                                    ?>
                                 </ul>
                             </div>
                         </div>

@@ -5,7 +5,7 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'List News', 'url' => array('index')),
+    array('label' => 'List News', 'url' => array('/category/index')),
     array('label' => 'Create News', 'url' => array('create')),
 );
 ?>
@@ -33,7 +33,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'name' => 'image',
             'type' => 'html',
-            'value' => '$data->imageHtml'
+            'value' => '$data->imageHtml',
         ),
         array(
             'name' => 'title',

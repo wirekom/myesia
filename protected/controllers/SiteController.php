@@ -30,11 +30,56 @@ class SiteController extends Controller {
         $categories = Category::model()->findAll();
         $banners = News::getBanner();
         $twoNews = News::getLastTwoNews();
+
+        $total = Shoutbox::model()->count();
+        
+        $c = new CDbCriteria;
+        $c->condition = "type=:type";
+        $c->params = array(':type' => Shoutbox::TYPE_GOOD);
+        $c->order = 'updated DESC';
+
+
+        $pages1 = new CPagination($total);
+        $pages1->pageSize = 20;
+        $pages1->applyLimit($c);
+        $shoutboxes1 = Shoutbox::model()->findAll($c);
+        
+        
+        $c->params = array(':type' => Shoutbox::TYPE_BAD);
+
+        $pages2 = new CPagination($total);
+        $pages2->pageSize = 20;
+        $pages2->applyLimit($c);
+        $shoutboxes2 = Shoutbox::model()->findAll($c);
+        
+
         $this->render('index', array(
             'categories' => $categories,
             'banners' => $banners,
             'twoNews' => $twoNews,
+            'shoutboxes1' => $shoutboxes1,
+            'pages1' => $pages1,
+            'shoutboxes2' => $shoutboxes2,
+            'pages2' => $pages2,
         ));
+    }
+
+    public function actionSearch() {
+        if (isset($_GET['search'])) {
+            $dataProviderCategory = new CActiveDataProvider('Category');
+            $dataProvider = new CActiveDataProvider('News', array(
+                'criteria' => array(
+                    'condition'=>"title like '%".$_GET['search']."%' OR content like '%".$_GET['search']."%'",
+                    'order' => 'id DESC',
+                ),
+            ));
+            $this->render('search', array(
+                'dataProvider' => $dataProvider,
+                'dataProviderCategory' => $dataProviderCategory,
+            ));
+        } else {
+            $this->redirect('index');
+        }
     }
 
     /**
@@ -70,7 +115,7 @@ class SiteController extends Controller {
      * Displays the login page
      */
     public function actionLogin() {
-        $this->layout = '//layouts/MainLogin'; 
+        $this->layout = '//layouts/MainLogin';
         $model = new LoginForm;
 
         // if it is ajax validation request

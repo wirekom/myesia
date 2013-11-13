@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List News','url'=>array('index')),
+	array('label'=>'List News','url'=>array('/category/index')),
 	array('label'=>'Manage News','url'=>array('admin')),
 );
 ?>

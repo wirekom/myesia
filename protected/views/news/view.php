@@ -5,7 +5,7 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'List News', 'url' => array('index')),
+    array('label' => 'List News', 'url' => array('/category/index')),
     array('label' => 'Create News', 'url' => array('create')),
     array('label' => 'Update News', 'url' => array('update', 'id' => $model->id)),
     array('label' => 'Delete News', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Are you sure you want to delete this item?')),
@@ -22,7 +22,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         array(
             'name' => 'image',
             'type' => 'html',
-            'value' => $model->imageThumb,
+            'value' => $model->imageHtml,
         ),
         'title',
         array(

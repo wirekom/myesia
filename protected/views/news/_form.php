@@ -32,7 +32,7 @@ $this->widget('ext.editMe.widgets.ExtEditMe', array(
 
 <?php echo $form->dropDownListRow($model, 'status', $model->getStatusOptions(), array('class' => 'span5')); ?>
 
-<?php echo $form->checkBoxRow($model, 'is_banner', array('class' => 'span5')); ?>
+<?php echo $form->checkBoxRow($model, 'is_banner', array('class' => '')); ?>
 
 
 <div class="form-actions">

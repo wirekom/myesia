@@ -50,25 +50,38 @@ class NewsController extends Controller {
         $this->layout = "//layouts/column1";
         $news = $this->loadModelSlug();
         $comment = $this->newComment($news);
+        $dataProvider = new CActiveDataProvider('News', array(
+            'criteria' => array(
+                'order' => 'id Desc',
+            ),
+            'pagination' => array(
+                'pageSize' => 3,
+            ),
+        ));
+
         if ($news->file_type == News::TYPE_PICTURE)
             $this->render('picture', array(
                 'model' => $news,
                 'comment' => $comment,
+                'dataProvider' => $dataProvider,
             ));
         else if ($news->file_type == News::TYPE_DOCUMENT)
             $this->render('document', array(
                 'model' => $news,
                 'comment' => $comment,
+                'dataProvider' => $dataProvider,
             ));
         else if ($news->file_type == News::TYPE_VIDEO)
             $this->render('video', array(
                 'model' => $news,
                 'comment' => $comment,
+                'dataProvider' => $dataProvider,
             ));
         else
             $this->render('view', array(
                 'model' => $news,
                 'comment' => $comment,
+                'dataProvider' => $dataProvider,
             ));
     }
 
