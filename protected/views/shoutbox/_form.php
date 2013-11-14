@@ -1,4 +1,4 @@
-<?php
+    <?php
 $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'shoutbox-form',
     'enableAjaxValidation' => false,

@@ -40,11 +40,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
             'value' => CHtml::encode($model->statusText),
         ),
         'is_banner',
-        array(
-            'name' => 'author_id',
-            'type' => 'raw',
-            'value' => CHtml::encode($model->author->username),
-        ),
+        'author',
     ),
 ));
 ?>

@@ -64,7 +64,7 @@ class ShoutboxController extends Controller {
 
         if (isset($_POST['Shoutbox'])) {
             $model->attributes = $_POST['Shoutbox'];
-            $model->author_id = Yii::app()->user->id;
+            $model->author = Yii::app()->user->username;
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }
@@ -87,6 +87,7 @@ class ShoutboxController extends Controller {
 
         if (isset($_POST['Shoutbox'])) {
             $model->attributes = $_POST['Shoutbox'];
+            $model->author = Yii::app()->user->username;
             if ($model->save())
                 $this->redirect(array('view', 'id' => $model->id));
         }

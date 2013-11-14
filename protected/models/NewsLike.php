@@ -1,29 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "comment".
+ * This is the model class for table "news_like".
  *
- * The followings are the available columns in table 'comment':
- * @property integer $id
- * @property string $comment
- * @property string $created
- * @property string $updated
- * @property integer $author
+ * The followings are the available columns in table 'news_like':
  * @property integer $news_id
- * @property integer $parent_id
+ * @property string $author
  *
  * The followings are the available model relations:
- * @property Comment $parent
- * @property Comment[] $comments
  * @property News $news
  */
-class Comment extends CActiveRecord {
+class NewsLike extends CActiveRecord {
 
     /**
      * @return string the associated database table name
      */
+    public function primaryKey() {
+        return array('news_id', 'author');
+    }
+
     public function tableName() {
-        return 'comment';
+        return 'news_like';
     }
 
     /**
@@ -33,12 +30,12 @@ class Comment extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('comment, news_id, author', 'required'),
+            array('news_id, author', 'required'),
             array('news_id', 'numerical', 'integerOnly' => true),
-            array('author', 'length', 'max' => 225),
+            array('author', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, comment, created, updated, news_id, author', 'safe', 'on' => 'search'),
+            array('news_id, author', 'safe', 'on' => 'search'),
         );
     }
 
@@ -49,11 +46,7 @@ class Comment extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'parent' => array(self::BELONGS_TO, 'Comment', 'parent_id'),
-            'comments' => array(self::HAS_MANY, 'Comment', 'parent_id'),
             'news' => array(self::BELONGS_TO, 'News', 'news_id'),
-            'likeCount' => array(self::STAT, 'CommentLike', 'comment_id'),
-            'replyCount' => array(self::STAT, 'Comment', 'parent_id'),
         );
     }
 
@@ -62,13 +55,8 @@ class Comment extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'comment' => 'Comment',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'author' => 'Author',
             'news_id' => 'News',
-            'parent_id' => 'Parent',
+            'author' => 'Author',
         );
     }
 
@@ -89,13 +77,8 @@ class Comment extends CActiveRecord {
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('comment', $this->comment, true);
-        $criteria->compare('created', $this->created, true);
-        $criteria->compare('updated', $this->updated, true);
-        $criteria->compare('author', $this->author, true);
         $criteria->compare('news_id', $this->news_id);
-        $criteria->compare('parent_id', $this->parent_id);
+        $criteria->compare('author', $this->author, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -106,36 +89,10 @@ class Comment extends CActiveRecord {
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return Comment the static model class
+     * @return NewsLike the static model class
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);
-    }
-
-    public function getUrl($news = null) {
-        if ($news === null)
-            $news = $this->news;
-        return $news->url . '#c' . $this->id;
-    }
-
-    public function behaviors() {
-        return array(
-            'timestamps' => array(
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created',
-                'updateAttribute' => 'updated',
-                'setUpdateOnCreate' => true,
-            ),
-        );
-    }
-
-    public function getIsLike() {
-        $rest = CommentLike::model()->findByPk(array(
-            'comment_id' => $this->id,
-            'author' => Yii::app()->user->username
-        ));
-
-        return ($rest === NULL) ? FALSE : TRUE;
     }
 
 }

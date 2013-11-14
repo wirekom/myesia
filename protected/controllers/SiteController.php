@@ -32,7 +32,7 @@ class SiteController extends Controller {
         $twoNews = News::getLastTwoNews();
 
         $total = Shoutbox::model()->count();
-        
+
         $c = new CDbCriteria;
         $c->condition = "type=:type";
         $c->params = array(':type' => Shoutbox::TYPE_GOOD);
@@ -43,15 +43,15 @@ class SiteController extends Controller {
         $pages1->pageSize = 20;
         $pages1->applyLimit($c);
         $shoutboxes1 = Shoutbox::model()->findAll($c);
-        
-        
+
+
         $c->params = array(':type' => Shoutbox::TYPE_BAD);
 
         $pages2 = new CPagination($total);
         $pages2->pageSize = 20;
         $pages2->applyLimit($c);
         $shoutboxes2 = Shoutbox::model()->findAll($c);
-        
+
 
         $this->render('index', array(
             'categories' => $categories,
@@ -64,18 +64,25 @@ class SiteController extends Controller {
         ));
     }
 
-    public function actionSearch() {
+    public function actionSearch($cat = NULL) {
         if (isset($_GET['search'])) {
-            $dataProviderCategory = new CActiveDataProvider('Category');
+            $match = addcslashes($_GET['search'], '%_'); // escape LIKE's special characters
+            $cat_clause = ($cat === NULL) ? '' : 'AND category_id=:catid';
             $dataProvider = new CActiveDataProvider('News', array(
                 'criteria' => array(
-                    'condition'=>"title like '%".$_GET['search']."%' OR content like '%".$_GET['search']."%'",
+                    'condition' => "(title LIKE :match OR content LIKE :match) " . $cat_clause, // no quotes around :match
+                    'params' => array(
+                        ':match' => "%$match%",
+                        ':catid' => $cat,
+                    ),
                     'order' => 'id DESC',
                 ),
             ));
+            $dataProviderCategory = new CActiveDataProvider('Category');
             $this->render('search', array(
                 'dataProvider' => $dataProvider,
                 'dataProviderCategory' => $dataProviderCategory,
+                'match' => $match,
             ));
         } else {
             $this->redirect('index');

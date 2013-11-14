@@ -20,11 +20,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
     'data' => $model,
     'attributes' => array(
         'title',
-        array(
-            'name' => 'author_id',
-            'type' => 'raw',
-            'value' => CHtml::encode($model->author->username),
-        ),
+        'author',
         array(
             'name' => 'content',
             'type' => 'html',

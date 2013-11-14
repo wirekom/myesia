@@ -19,11 +19,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        array(
-            'name' => 'author_id',
-            'type' => 'raw',
-            'value' => 'CHtml::encode($data->author->username)',
-        ),
+        'author',
         array(
             'name' => 'category_id',
             'type' => 'raw',

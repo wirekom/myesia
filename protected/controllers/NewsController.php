@@ -29,7 +29,7 @@ class NewsController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
+                'actions' => array('create', 'update', 'ajaxLikeNews', 'ajaxLikeComment', 'ajaxReplyComment'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -97,7 +97,7 @@ class NewsController extends Controller {
 
         if (isset($_POST['News'])) {
             $model->attributes = $_POST['News'];
-            $model->author_id = Yii::app()->user->id;
+            $model->author = Yii::app()->user->username;
             $model->file = CUploadedFile::getInstance($model, 'file');
             if ($model->file !== null) {
                 $ext = strtolower($model->file->getExtensionName());
@@ -139,7 +139,7 @@ class NewsController extends Controller {
 
         if (isset($_POST['News'])) {
             $model->attributes = $_POST['News'];
-            $model->author_id = Yii::app()->user->id;
+            $model->author = Yii::app()->user->username;
             $model->file = CUploadedFile::getInstance($model, 'file');
             if ($model->file !== null) {
                 $dir = Yii::getPathOfAlias('webroot') . Yii::app()->params['uploads'];
@@ -264,6 +264,66 @@ class NewsController extends Controller {
             }
         }
         return $comment;
+    }
+
+    public function actionAjaxLikeNews() {
+        $data = array();
+        if (isset($_POST['param'])) {
+            $data["news_id"] = $_POST['news_id'];
+            if ($_POST['param'] == 1) {
+                $model = new NewsLike;
+                $model->author = Yii::app()->user->username;
+                $model->news_id = $_POST['news_id'];
+                if ($model->save())
+                    $data["is_like"] = TRUE;
+            } else {
+                $model = NewsLike::model()->findByPk(array(
+                    'news_id' => $_POST['news_id'],
+                    'author' => Yii::app()->user->username
+                ));
+                if ($model->delete())
+                    $data["is_like"] = FALSE;
+            }
+        }
+        $this->renderPartial('_ajaxLikeNewsContent', $data, false, true);
+    }
+
+    public function actionAjaxLikeComment() {
+        $data = array();
+        if (isset($_POST['param'])) {
+            $data["comment_id"] = $_POST['comment_id'];
+            if ($_POST['param'] == 1) {
+                $model = new CommentLike;
+                $model->author = Yii::app()->user->username;
+                $model->comment_id = $_POST['comment_id'];
+                if ($model->save())
+                    $data["is_like"] = TRUE;
+            } else {
+                $model = CommentLike::model()->findByPk(array(
+                    'comment_id' => $_POST['comment_id'],
+                    'author' => Yii::app()->user->username
+                ));
+                if ($model->delete())
+                    $data["is_like"] = FALSE;
+            }
+        }
+        $this->renderPartial('_ajaxLikeCommentContent', $data, false, true);
+    }
+
+    public function actionAjaxReplyComment() {
+        if (isset($_POST['reply_comment']) && isset($_POST['parent_id'])) {
+            $comment = new Comment;
+            $comment->author = Yii::app()->user->username;
+            $comment->comment = $_POST['reply_comment'];
+            $comment->parent_id = $_POST['parent_id'];
+            if ($comment->save(false)) {
+                $comment->refresh();
+                $data["comment"] = $comment;
+                echo '<li class="row-fluid" id="c' . $comment->id . '">';
+                $this->renderPartial('_comment', $data, false, true);
+                echo '</li>';
+            }
+        }
     }
 
 }

@@ -14,62 +14,63 @@ $this->menu = array(
 ?>
 
 <div class="container inner">
-	<div class="row-fluid"><!--========== Content ===========-->
-		<div class="span9"><!-- Sebelah Kiri -->
-			<?php
-				$this->widget('ext.jwplayer.Jwplayer', array(
-					'width' => 'auto',
-					'height' => 360,
-					'file' => Yii::app()->baseUrl . Yii::app()->params['uploads_videos'] . $model->image, // the file of the player, if null we use demo file of jwplayer
-				//    'image' => null, // the thumbnail image of the player, if null we use demo image of jwplayer
-					'options' => array(
-						'controlbar' => 'bottom'
-					)
-				));
-			?>
-			
-			<div class="comment">
-				<?php if (Yii::app()->user->hasFlash('commentSubmitted')): ?>
-					<div class="flash-success">
-						<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
-					</div>
-				<?php else: ?>
-					<?php
-					$this->renderPartial('/comment/_form', array(
-						'model' => $comment,
-					));
-					?>
-				<?php endif; ?>
-			</div>
-			
-			<div class="isi-koment">
-					<?php if ($model->commentCount >= 1): ?>
-					<h3>
-						<?php echo $model->commentCount > 1 ? $model->commentCount . ' comments' : 'One comment'; ?>
-					</h3>
-					<?php
-					$this->renderPartial('_comments', array(
-						'post' => $model,
-						'comments' => $model->comments,
-					));
-					?>
-					<?php endif; ?>
-			</div><!-- blog-comments-container-->
-		</div>
-		
-		<div class="span3 knn"><!-- Sebelah Kanan -->
-			<div class="babar">
-				<h3 class="widget-title clearfix">
-					<span class="title-text">Artikel Lainnya</span>
-				</h3>
-				<?php
-					$this->widget('bootstrap.widgets.TbListView', array(
-						'dataProvider' => $dataProvider,
-						'template' => "<ul class=\"populer\">{items}</ul>",
-						'itemView' => '_listartikel',
-					));
-				?>
-			</div>
-		</div>
-	</div>
+    <div class="row-fluid"><!--========== Content ===========-->
+        <div class="span9"><!-- Sebelah Kiri -->
+            <?php
+            $this->widget('ext.jwplayer.Jwplayer', array(
+                'width' => 'auto',
+                'height' => 360,
+                'file' => Yii::app()->baseUrl . Yii::app()->params['uploads_videos'] . $model->image, // the file of the player, if null we use demo file of jwplayer
+                //    'image' => null, // the thumbnail image of the player, if null we use demo image of jwplayer
+                'options' => array(
+                    'controlbar' => 'bottom'
+                )
+            ));
+            ?>
+
+            <?php if (!Yii::app()->user->isGuest): ?>
+                <div class="comment">
+                    <?php if (Yii::app()->user->hasFlash('commentSubmitted')): ?>
+                        <div class="flash-success">
+                            <?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+                        </div>
+                    <?php else: ?>
+                        <?php
+                        $this->renderPartial('/comment/_form', array(
+                            'model' => $comment,
+                        ));
+                        ?>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+            <div class="isi-koment">
+                <?php if ($model->commentCount >= 1): ?>
+                    <h3>
+                        <?php echo $model->commentCount > 1 ? $model->commentCount . ' comments' : 'One comment'; ?>
+                    </h3>
+                    <?php
+                    $this->renderPartial('_comments', array(
+                        'cid' => 0,
+                        'comments' => $model->comments,
+                    ));
+                    ?>
+                <?php endif; ?>
+            </div><!-- blog-comments-container-->
+        </div>
+
+        <div class="span3 knn"><!-- Sebelah Kanan -->
+            <div class="babar">
+                <h3 class="widget-title clearfix">
+                    <span class="title-text">Artikel Lainnya</span>
+                </h3>
+                <?php
+                $this->widget('bootstrap.widgets.TbListView', array(
+                    'dataProvider' => $dataProvider,
+                    'template' => "<ul class=\"populer\">{items}</ul>",
+                    'itemView' => '_listartikel',
+                ));
+                ?>
+            </div>
+        </div>
+    </div>
 </div>

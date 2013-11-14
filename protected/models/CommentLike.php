@@ -1,30 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "shoutbox".
+ * This is the model class for table "comment_like".
  *
- * The followings are the available columns in table 'shoutbox':
- * @property integer $id
- * @property string $title
- * @property string $content
- * @property integer $type
- * @property string $created
- * @property string $updated
- * @property integer $author_id
+ * The followings are the available columns in table 'comment_like':
+ * @property integer $comment_id
+ * @property string $author
  *
  * The followings are the available model relations:
- * @property User $author
+ * @property Comment $comment
  */
-class Shoutbox extends CActiveRecord {
-
-    const TYPE_GOOD = 1;
-    const TYPE_BAD = 2;
+class CommentLike extends CActiveRecord {
 
     /**
      * @return string the associated database table name
      */
+    public function primaryKey() {
+        return array('comment_id', 'author');
+    }
+
     public function tableName() {
-        return 'shoutbox';
+        return 'comment_like';
     }
 
     /**
@@ -34,14 +30,12 @@ class Shoutbox extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('title, content, author', 'required'),
-            array('type', 'numerical', 'integerOnly' => true),
-            array('title', 'length', 'max' => 100),
-            array('content', 'length', 'max' => 255),
+            array('comment_id, author', 'required'),
+            array('comment_id', 'numerical', 'integerOnly' => true),
             array('author', 'length', 'max' => 255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, content, type, created, updated, author', 'safe', 'on' => 'search'),
+            array('comment_id, author', 'safe', 'on' => 'search'),
         );
     }
 
@@ -52,6 +46,7 @@ class Shoutbox extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'comment' => array(self::BELONGS_TO, 'Comment', 'comment_id'),
         );
     }
 
@@ -60,12 +55,7 @@ class Shoutbox extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'id' => 'ID',
-            'title' => 'Title',
-            'content' => 'Content',
-            'type' => 'Type',
-            'created' => 'Created',
-            'updated' => 'Updated',
+            'comment_id' => 'Comment',
             'author' => 'Author',
         );
     }
@@ -87,12 +77,7 @@ class Shoutbox extends CActiveRecord {
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('title', $this->title, true);
-        $criteria->compare('content', $this->content, true);
-        $criteria->compare('type', $this->type);
-        $criteria->compare('created', $this->created, true);
-        $criteria->compare('updated', $this->updated, true);
+        $criteria->compare('comment_id', $this->comment_id);
         $criteria->compare('author', $this->author, true);
 
         return new CActiveDataProvider($this, array(
@@ -104,40 +89,10 @@ class Shoutbox extends CActiveRecord {
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return Shoutbox the static model class
+     * @return CommentLike the static model class
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);
-    }
-
-    public function getTypeOptions() {
-        return array(
-            self::TYPE_BAD => 'BAD NEWS',
-            self::TYPE_GOOD => 'GOOD NEWS',
-        );
-    }
-
-    public function getTypeText($type = null) {
-        $value = ($type === null) ? $this->type : $type;
-        $typeOptions = $this->getTypeOptions();
-        return isset($typeOptions[$value]) ?
-                $typeOptions[$value] : "unknown type ({$value})";
-    }
-
-    public function getTypeValue($type = null) {
-        $typeOptions = $this->getTypeOptions();
-        return array_search($type, $typeOptions);
-    }
-
-    public function behaviors() {
-        return array(
-            'timestamps' => array(
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created',
-                'updateAttribute' => 'updated',
-                'setUpdateOnCreate' => true,
-            ),
-        );
     }
 
 }

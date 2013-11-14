@@ -9,15 +9,17 @@
  * @property string $title
  * @property string $content
  * @property integer $status
- * @property integer $file_status
  * @property integer $is_banner
- * @property string $created
- * @property string $updated
- * @property integer $author_id
- * @property integer $category_id
  * @property string $slug
+ * @property integer $menu_link
+ * @property integer $file_type
+ * @property string $updated
+ * @property string $created
+ * @property integer $author
+ * @property integer $category_id
  *
  * The followings are the available model relations:
+ * @property Comment[] $comments
  * @property User $author
  * @property Category $category
  */
@@ -47,16 +49,17 @@ class News extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('title, content, author_id, category_id, menu_link', 'required'),
-            array('status, file_type, is_banner, author_id, category_id', 'numerical', 'integerOnly' => true),
+            array('title, content, category_id, menu_link', 'required'),
+            array('status, file_type, is_banner, category_id', 'numerical', 'integerOnly' => true),
             array('image', 'length', 'max' => 150),
             array('title', 'length', 'max' => 225),
+            array('author', 'length', 'max' => 225),
             array('slug', 'length', 'max' => 255),
             array('file', 'file', 'types' => 'png, jpg, jpeg, mp4, pdf', 'allowEmpty' => true),
             array('file', 'required', 'on' => 'insert'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, image, title, content, status, file_type, is_banner, created, updated, author_id, category_id, menu_link, slug', 'safe', 'on' => 'search'),
+            array('id, image, title, content, status, file_type, is_banner, created, updated, author, category_id, menu_link, slug', 'safe', 'on' => 'search'),
         );
     }
 
@@ -68,9 +71,9 @@ class News extends CActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'comments' => array(self::HAS_MANY, 'Comment', 'news_id'),
-            'author' => array(self::BELONGS_TO, 'User', 'author_id'),
             'category' => array(self::BELONGS_TO, 'Category', 'category_id'),
             'commentCount' => array(self::STAT, 'Comment', 'news_id'),
+            'likeCount' => array(self::STAT, 'NewsLike', 'news_id'),
         );
     }
 
@@ -84,14 +87,14 @@ class News extends CActiveRecord {
             'title' => 'Title',
             'content' => 'Content',
             'status' => 'Status',
-            'file_type' => 'File Type',
             'is_banner' => 'Is Banner',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'author_id' => 'Author',
-            'category_id' => 'Category',
             'slug' => 'Slug',
             'menu_link' => 'Menu Link',
+            'file_type' => 'File Type',
+            'updated' => 'Updated',
+            'created' => 'Created',
+            'author' => 'Author',
+            'category_id' => 'Category',
         );
     }
 
@@ -117,14 +120,14 @@ class News extends CActiveRecord {
         $criteria->compare('title', $this->title, true);
         $criteria->compare('content', $this->content, true);
         $criteria->compare('status', $this->status);
-        $criteria->compare('file_type', $this->file_type);
         $criteria->compare('is_banner', $this->is_banner);
-        $criteria->compare('created', $this->created, true);
-        $criteria->compare('updated', $this->updated, true);
-        $criteria->compare('author_id', $this->author_id);
-        $criteria->compare('category_id', $this->category_id);
         $criteria->compare('slug', $this->slug, true);
         $criteria->compare('menu_link', $this->menu_link);
+        $criteria->compare('file_type', $this->file_type);
+        $criteria->compare('updated', $this->updated, true);
+        $criteria->compare('created', $this->created, true);
+        $criteria->compare('author', $this->author, true);
+        $criteria->compare('category_id', $this->category_id);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -227,7 +230,7 @@ class News extends CActiveRecord {
 
     public function addComment($comment) {
         $comment->news_id = $this->id;
-        $comment->author_id = Yii::app()->user->id;
+        $comment->author = Yii::app()->user->username;
         return $comment->save();
     }
 
@@ -243,6 +246,7 @@ class News extends CActiveRecord {
                     )
         ));
     }
+
     public static function getLastTwoNews() {
         return News::model()->findAll(array(
                     'condition' => 'status=:status AND file_type=:file_type',
@@ -253,6 +257,15 @@ class News extends CActiveRecord {
                         ':status' => News::STATUS_PUBLISHED
                     )
         ));
+    }
+
+    public function getIsLike() {
+        $rest = NewsLike::model()->findByPk(array(
+            'news_id' => $this->id,
+            'author' => Yii::app()->user->username
+        ));
+
+        return ($rest === NULL) ? FALSE : TRUE;
     }
 
 }
