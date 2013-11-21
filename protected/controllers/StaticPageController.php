@@ -66,7 +66,7 @@ class StaticPageController extends Controller {
 
         if (isset($_POST['StaticPage'])) {
             $model->attributes = $_POST['StaticPage'];
-            $model->author_id = Yii::app()->user->id;
+            $model->author = Yii::app()->user->username;
             if ($model->save())
                 $this->redirect(array('view', 'slug' => $model->slug));
         }
@@ -90,7 +90,7 @@ class StaticPageController extends Controller {
 
         if (isset($_POST['StaticPage'])) {
             $model->attributes = $_POST['StaticPage'];
-            $model->author_id = Yii::app()->user->id;
+            $model->author = Yii::app()->user->username;
             if ($model->save())
                 $this->redirect(array('view', 'slug' => $model->slug));
         }

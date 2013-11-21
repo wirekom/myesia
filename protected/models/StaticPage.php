@@ -35,13 +35,13 @@ class StaticPage extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('title, author_id', 'required'),
-            array('status, author_id', 'numerical', 'integerOnly' => true),
+            array('title, author', 'required'),
+            array('status', 'numerical', 'integerOnly' => true),
             array('title', 'length', 'max' => 255),
             array('content', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, title, content, status, created, updated, author_id, menu_link', 'safe', 'on' => 'search'),
+            array('id, title, content, status, created, updated, author, menu_link', 'safe', 'on' => 'search'),
         );
     }
 
@@ -52,7 +52,6 @@ class StaticPage extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'author' => array(self::BELONGS_TO, 'User', 'author_id'),
         );
     }
 
@@ -67,7 +66,7 @@ class StaticPage extends CActiveRecord {
             'status' => 'Status',
             'created' => 'Created',
             'updated' => 'Updated',
-            'author_id' => 'Author',
+            'author' => 'Author',
             'menu_link' => 'Menu Link',
         );
     }
@@ -95,7 +94,7 @@ class StaticPage extends CActiveRecord {
         $criteria->compare('status', $this->status);
         $criteria->compare('created', $this->created, true);
         $criteria->compare('updated', $this->updated, true);
-        $criteria->compare('author_id', $this->author_id);
+        $criteria->compare('author', $this->author, true);
         $criteria->compare('menu_link', $this->menu_link);
         
         return new CActiveDataProvider($this, array(

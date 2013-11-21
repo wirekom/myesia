@@ -8,36 +8,9 @@ $this->menu = array(
     array('label' => 'List Menu', 'url' => array('index')),
     array('label' => 'Create Menu', 'url' => array('create')),
 );
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('menu-grid', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
 <h1>Manage Menus</h1>
-
-<p>
-    You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-    or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
-
-<?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button btn')); ?>
-<div class="search-form" style="display:none">
-    <?php
-    $this->renderPartial('_search', array(
-        'model' => $model,
-    ));
-    ?>
-</div><!-- search-form -->
 
 <?php
 $this->widget('bootstrap.widgets.TbGridView', array(
@@ -45,12 +18,35 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        'parent_id',
-        'title',
-        'url',
-        'published',
+        array(
+            'name' => 'title',
+            'type' => 'raw',
+            'value' => 'CHtml::link(CHtml::encode($data->title), $data->viewUrl)'
+        ),
+        array(
+            'name' => 'url',
+            'type' => 'raw',
+            'value' => 'CHtml::link(CHtml::encode($data->url), $data->url)'
+        ),
+        array(
+            'name' => 'published',
+            'filter' => $model->publishedOptions,
+            'type' => 'raw',
+            'value' => 'CHtml::encode($data->publishedText)'
+        ),
+        array(
+            'name' => 'created',
+            'type' => 'datetime',
+            'filter' => false,
+        ),
+        array(
+            'name' => 'updated',
+            'type' => 'datetime',
+            'filter' => false,
+        ),
         array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
+            'template' => '{update}{delete}',
         ),
     ),
 ));

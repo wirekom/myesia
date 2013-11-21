@@ -24,7 +24,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'name' => 'category_id',
             'type' => 'raw',
             'value' => 'CHtml::encode($data->category->name)',
-            'filter' => $model->getCategoryOptions(),
+            'filter' => $model->categoryOptions,
         ),
         array(
             'name' => 'image',
@@ -38,11 +38,16 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         array(
             'name' => 'status',
-            'filter' => $model->getStatusOptions(),
+            'filter' => $model->statusOptions,
             'type' => 'raw',
             'value' => 'CHtml::encode($data->statusText)'
         ),
-        'is_banner',
+        array(
+            'name' => 'is_banner',
+            'filter' => $model->bannerOptions,
+            'type' => 'raw',
+            'value' => 'CHtml::encode($data->bannerText)'
+        ),
         array(
             'name' => 'created',
             'type' => 'datetime',

@@ -11,11 +11,15 @@ $this->menu = array(
     array('label' => 'Delete Category', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Are you sure you want to delete this item?')),
     array('label' => 'Manage Category', 'url' => array('admin')),
 );
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/js/CompactNewsPreviewer/css/style.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/contentSlide.js', CClientScript::POS_HEAD);
+Yii::app()->clientScript->registerScript('variables', 'init_hover();');
 ?>
 
 <div class="container inner">
     <div class="row-fluid"><!--========== Content ===========-->
-        <a href=""><span><h2>HOT NEWS</h2></span></a>
+        <?php echo CHtml::link('<span><h2>ALL CATEGORY</h2></span>', $this->createUrl('category/index')); ?>
+
         <div class="span3 no-margin krr">
             <?php
             $this->widget('bootstrap.widgets.TbListView', array(
@@ -24,34 +28,35 @@ $this->menu = array(
                 'itemView' => '_view',
             ));
             ?>
-
         </div>
         <div class="span4"><!-- Sebelah Kiri -->
-            <?php
-            $this->widget('bootstrap.widgets.TbListView', array(
-                'dataProvider' => new CArrayDataProvider($model->news, array(
-                    'pagination' => array(
-                        'pageSize' => 5,
-                    ),
-                        )),
-                'template' => "<ul class='list_artikel'>{items}</ul>\n{pager}",
-                'itemView' => '_news',
-            ));
-            ?>
+            <div id="cn_list" class="cn_list">
+                <?php
+                $this->widget('bootstrap.widgets.TbListView', array(
+                    'dataProvider' => $dataProviderNews,
+                    'template' => "<div class='cn_page' style='display:block;'>{items}</div>\n{pager}",
+                    'itemView' => '_news',
+                    'afterAjaxUpdate' => 'js:init_hover',
+                ));
+                ?>
+            </div>
         </div>
         <div class="span5 knn"><!-- Sebelah Kanan -->
             <div class="singleRev">
-                <span class="tangle-left"></span>
-                <span class="tangle-bottom"></span>
-                <h3 class="tel">Loream Ipsum</h3>
-                <span class="iten">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum...</br></br>
-                    <a href="">Read More</a> 
-                </span>
+                <div class="cn_wrapper">
+                    <div id="cn_preview" class="cn_preview">
+                        <?php
+                        $this->widget('bootstrap.widgets.TbListView', array(
+                            'dataProvider' => $dataProviderNews,
+                            'template' => "<div class='cn_page' style='display:block;'>{items}</div>",
+                            'itemView' => '_news_dsc',
+                        ));
+                        ?>
+                    </div>
+                </div>
+                <!-- End -->
             </div>
         </div>
+
     </div>
-</div>
+</div><!-- /container -->

@@ -50,9 +50,20 @@ class CategoryController extends Controller {
         $this->layout = "//layouts/column1";
         $category = $this->loadModelSlug();
         $dataProviderCategory = new CActiveDataProvider('Category');
+        $dataProviderNews = new CArrayDataProvider($category->news, array(
+            'sort' => array(
+                'attributes' => array('updated', 'title',),
+                'defaultOrder' => 'updated DESC',
+            ),
+            'pagination' => array(
+                'pageSize' => 4,
+            ),
+        ));
+
         $this->render('view', array(
             'model' => $category,
             'dataProviderCategory' => $dataProviderCategory,
+            'dataProviderNews' => $dataProviderNews,
         ));
     }
 
@@ -123,7 +134,10 @@ class CategoryController extends Controller {
     public function actionIndex() {
         $this->layout = "//layouts/column1";
         $dataProviderCategory = new CActiveDataProvider('Category');
-        $dataProviderNews = new CActiveDataProvider('News');
+        $dataProviderNews = new CActiveDataProvider('News', array(
+            'criteria' => array('order' => 'updated DESC',),
+            'pagination' => array('pageSize' => 4,),
+        ));
         $this->render('index', array(
             'dataProviderCategory' => $dataProviderCategory,
             'dataProviderNews' => $dataProviderNews,

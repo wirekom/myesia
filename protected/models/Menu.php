@@ -137,6 +137,29 @@ class Menu extends CActiveRecord {
         return $result;
     }
 
+    public function getPublishedOptions() {
+        return array(
+            TRUE => 'YES',
+            FALSE => 'NO',
+        );
+    }
+
+    public function getPublishedText($published = null) {
+        $value = ($published === null) ? $this->published : $published;
+        $publishedOptions = $this->getPublishedOptions();
+        return isset($publishedOptions[$value]) ?
+                $publishedOptions[$value] : "unknown ({$value})";
+    }
+
+    /**
+     * @return string the URL that shows the detail of the news
+     */
+    public function getViewUrl() {
+        return Yii::app()->createUrl('menu/view', array(
+                    'id' => $this->id,
+        ));
+    }
+
     public function behaviors() {
         return array(
             'timestamps' => array(

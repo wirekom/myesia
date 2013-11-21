@@ -19,6 +19,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
+        'author',
         array(
             'name' => 'title',
             'type' => 'raw',
@@ -39,11 +40,6 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'name' => 'updated',
             'type' => 'datetime',
             'filter' => false,
-        ),
-        array(
-            'name' => 'author_id',
-            'type' => 'raw',
-            'value' => 'CHtml::encode($data->author->username)'
         ),
         array(
             'class' => 'bootstrap.widgets.TbButtonColumn',

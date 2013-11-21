@@ -8,7 +8,7 @@
     $this->endWidget();
     ?>
 
-    <b><?php echo CHtml::encode($data->getAttributeLabel('author_id')); ?>:</b>
-    <?php echo CHtml::encode($data->author_id); ?>
+    <b><?php echo CHtml::encode($data->getAttributeLabel('author')); ?>:</b>
+    <?php echo CHtml::encode($data->author); ?>
     <br />
 </div>

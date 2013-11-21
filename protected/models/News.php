@@ -87,7 +87,7 @@ class News extends CActiveRecord {
             'title' => 'Title',
             'content' => 'Content',
             'status' => 'Status',
-            'is_banner' => 'Is Banner',
+            'is_banner' => 'Banner',
             'slug' => 'Slug',
             'menu_link' => 'Menu Link',
             'file_type' => 'File Type',
@@ -163,6 +163,20 @@ class News extends CActiveRecord {
                 $statusOptions[$value] : "unknown status ({$value})";
     }
 
+    public function getBannerOptions() {
+        return array(
+            TRUE => 'YES',
+            FALSE => 'NO',
+        );
+    }
+
+    public function getBannerText($banner = null) {
+        $value = ($banner === null) ? $this->is_banner : $banner;
+        $bannerOptions = $this->getBannerOptions();
+        return isset($bannerOptions[$value]) ?
+                $bannerOptions[$value] : "unknown banner ({$value})";
+    }
+    
     public function getStatusValue($status = null) {
         $statusOptions = $this->getStatusOptions();
         return array_search($status, $statusOptions);
